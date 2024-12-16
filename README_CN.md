@@ -8,7 +8,7 @@
 
 ## 产品链接（https://www.dfrobot.com.cn）
 
-    SKU：
+    SKU：SEN0652
 
 ## 目录
 
