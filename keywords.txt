@@ -1,0 +1,25 @@
+#######################################
+# Syntax Coloring Map For Grove - CT1780
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+DFRobot_CT1780	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin	KEYWORD2
+getCelsius	KEYWORD2
+getUniqueAddr	KEYWORD2
+getConfigAddr	KEYWORD2
+#######################################
+# Constants (LITERAL1)
+#######################################
+CMD_READ_ROM	LITERAL1
+CMD_MATCH_ROM	LITERAL1
+CMD_SKIP_ROM	LITERAL1
+CMD_CONVERT_T	LITERAL1
+CMD_READ_SCRATCHPAD	LITERAL1
+
