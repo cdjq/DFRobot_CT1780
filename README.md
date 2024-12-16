@@ -8,7 +8,7 @@ DFRobot_CT1780
 ![产品效果图片](../../resources/images/CT1780.png)
   
 ## Product Link (https://www.dfrobot.com)
-    SKU: SEN0636
+    SKU: SEN0652
 
 ## Table of Contents
 
