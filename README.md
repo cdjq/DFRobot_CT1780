@@ -30,34 +30,34 @@ To use this library, first download the library file, paste it into the \Arduino
 ## Methods
 
 ```C++
-	/**
-	 * @fn: begin
-	 * @brief: Initialize object
-	 * @return: 1 is returned if initialization succeeds, 0 is returned if initialization fails
-	 */
-	int begin();
+/**
+ * @fn: begin
+ * @brief: Initialize object
+ * @return: 1 is returned if initialization succeeds, 0 is returned if initialization fails
+ */
+int begin();
 
-	/**
-	 * @fn: getCelsius
-	 * @brief: Read probe temperature data
-	 * @return: float Temperature value (in degrees Celsius)
-	 */
-	float getCelsius();
+/**
+ * @fn: getCelsius
+ * @brief: Read probe temperature data
+ * @return: float Temperature value (in degrees Celsius)
+ */
+float getCelsius();
 
-	/**
-	 * @fn: getUniqueAddr()
-	 * @brief: Gets the 64-bit unique address of CT1780
-	 * @return: Address data (array)
-	 */
-	uint8_t* getUniqueAddr();
+/**
+ * @fn: getUniqueAddr()
+ * @brief: Gets the 64-bit unique address of CT1780
+ * @return: Address data (array)
+*/
+uint8_t* getUniqueAddr();
 
 
-	/**
-	 * @fn: getConfigAddr()
-	 * @brief: Get the user-configured address of CT1780 (in ScratchPad)
-	 * @return: address data
-	 */
-	uint8_t getConfigAddr();
+/**
+ * @fn: getConfigAddr()
+ * @brief: Get the user-configured address of CT1780 (in ScratchPad)
+ * @return: address data
+ */
+uint8_t getConfigAddr();
 
 ```
 
