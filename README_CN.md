@@ -1,9 +1,9 @@
-# DFrobot_CT780
+# DFrobot_CT1780
 - [英文版](./README.md)
 
 数字K型高温传感器
 
-![产品效果图片](./resources/images/CT780.png)
+![产品效果图片](./resources/images/CT1780.png)
 
 
 ## 产品链接（https://www.dfrobot.com.cn）
@@ -26,6 +26,7 @@
 ## 库安装
 
 使用此库前，请首先下载库文件，将其粘贴到\Arduino\libraries目录中，然后打开examples文件夹并在该文件夹中运行演示。
+本库依赖OneWire库，使用此库前，请先安装OneWire。
 
 ## 方法
 

@@ -8,8 +8,8 @@
  * @date        2024-12-16
  * @url         https://github.com/DFRobor/DFRobot_CT1780
  */
-#ifndef _DFRobot_MAX31855_H_ 
-#define _DFRobot_MAX31855_H_
+#ifndef _DFRobot_CT1780_H_ 
+#define _DFRobot_CT1780_H_
 #include "OneWire.h"
 
 class DFRobot_CT1780 :public OneWire

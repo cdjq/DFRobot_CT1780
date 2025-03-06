@@ -16,10 +16,17 @@ int DFRobot_CT1780::begin(){
         delay(250);
         return 0;
     }
+        for(uint8_t i =0;i<7;i++)
+            Serial.println(address[i],HEX);
+        
+         Serial.println(address[7],HEX);
+          Serial.println(crc8(address, 7),HEX);
     if (crc8(address, 7) != address[7]) {
+
         return 0;
     }
     if (address[0] != 0x3B) { // Check the family code of the device
+        Serial.println("address[0] != 0x3B");
         return 0;
     }
     return 1;
