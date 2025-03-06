@@ -8,7 +8,7 @@
 
 ## 产品链接（https://www.dfrobot.com.cn）
 
-    SKU：
+    SKU：SEN0652
 
 ## 目录
 
@@ -31,34 +31,34 @@
 ## 方法
 
 ```C++
-	/**
-	 * @fn: begin
-	 * @brief: 初始化对象
-	 * @return: 初始化成功返回1，初始化失败返回0
-	 */
-	int begin();
+/**
+ * @fn: begin
+ * @brief: 初始化对象
+ * @return: 初始化成功返回1，初始化失败返回0
+ */
+int begin();
 
-	/**
-	 * @fn: getCelsius
-	 * @brief: 读取探头温度数据
-	 * @return: float 温度值（单位：摄⽒度）
-	 */
-	float getCelsius();
+/**
+ * @fn: getCelsius
+ * @brief: 读取探头温度数据
+ * @return: float 温度值（单位：摄⽒度）
+ */
+float getCelsius();
 
-	/**
-	 * @fn: getUniqueAddr()
-	 * @brief: 获取CT1780的64位唯⼀地址
-	 * @return: 地址数据（数组）
-	 */
-	uint8_t* getUniqueAddr();
+/**
+ * @fn: getUniqueAddr()
+ * @brief: 获取CT1780的64位唯⼀地址
+ * @return: 地址数据（数组）
+ */
+uint8_t* getUniqueAddr();
 
 
-	/**
-	 * @fn: getConfigAddr()
-	 * @brief: 获取CT1780的⽤⼾配置地址（在ScratchPad中）
-	 * @return: 地址数据
-	 */
-	uint8_t getConfigAddr();
+/**
+ * @fn: getConfigAddr()
+ * @brief: 获取CT1780的⽤⼾配置地址（在ScratchPad中）
+ * @return: 地址数据
+ */
+uint8_t getConfigAddr();
 ```
 ## 兼容性
 MCU                | Work Well    | Work Wrong   |   Untested   |
