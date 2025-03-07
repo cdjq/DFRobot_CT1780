@@ -17,9 +17,4 @@ getConfigAddr	KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
-CMD_READ_ROM	LITERAL1
-CMD_MATCH_ROM	LITERAL1
-CMD_SKIP_ROM	LITERAL1
-CMD_CONVERT_T	LITERAL1
-CMD_READ_SCRATCHPAD	LITERAL1
 
