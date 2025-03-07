@@ -5,7 +5,7 @@ DFRobot_CT1780
 
 1-Wire High Temperature Sersor (K-type)
 
-![产品效果图片](../../resources/images/DFRobot_CT1780.png)
+![产品效果图片](./resources/images/DFRobot_CT1780.png)
   
 ## Product Link (https://www.dfrobot.com)
     SKU: SEN0652
