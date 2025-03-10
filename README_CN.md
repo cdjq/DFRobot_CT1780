@@ -10,7 +10,7 @@ DFRobot_CT1780
 
 ## 产品链接（https://www.dfrobot.com.cn）
 
-    SKU：SEN0652
+    SKU：SEN0656
 
 ## 目录
 
