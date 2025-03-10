@@ -5,7 +5,7 @@ DFRobot_CT1780
 
 1-Wire High Temperature Sersor (K-type)
 
-![产品效果图片](../../resources/images/DFRobot_CT1780.png)
+![产品效果图片](./resources/images/DFRobot_CT1780.png)
   
 ## Product Link (https://www.dfrobot.com)
     SKU: SEN0652
@@ -30,34 +30,34 @@ This library depends on the OneWire library. Please install OneWire before using
 ## Methods
 
 ```C++
-/**
- * @fn: begin
- * @brief: Initialize object
- * @return: 1 is returned if initialization succeeds, 0 is returned if initialization fails
- */
-int begin();
+  /**
+   * @fn: DFRobot_CT1780
+   * @brief: Constructor, passing in the data pin of the CT1780 connection
+   * @param pin: The pin of the OneWire data cable connection
+   */
+  DFRobot_CT1780(uint8_t pin);
+  /**
+   * @fn: searchDevice
+   * @brief: Search for CT1780 device connected to the bus
+   * @param newAddr:If a new device is retrieved, the 64-bit unique ID of the device is stored at that address
+   * @return: Returns 1 if a new address has been returned. A zero might mean that the bus is shorted, there are no devices, or you have already retrieved all of them.
+   */
+  int searchDevice(uint8_t *newAddr );
+  /**
+   * @fn: getCelsius
+   * @brief: Read probe temperature data
+   * @param newAddr:device address
+   * @return: float Temperature value (in degrees Celsius),Return NAN on failure.
+   */
+  float getCelsius(uint8_t *newAddr);
 
-/**
- * @fn: getCelsius
- * @brief: Read probe temperature data
- * @return: float Temperature value (in degrees Celsius),Return NAN on failure.
- */
-float getCelsius();
-
-/**
- * @fn: getUniqueAddr()
- * @brief: Gets the 64-bit unique address of CT1780
- * @return: Address data (array),Return NULL on failure.
-*/
-uint8_t* getUniqueAddr();
-
-
-/**
- * @fn: getConfigAddr()
- * @brief: Get the user-configured address of CT1780 (in ScratchPad)
- * @return: address data,Return -1 on failure.
- */
-int getConfigAddr();
+  /**
+   * @fn: getConfigAddr
+   * @brief: Get the user-configured address of CT1780 (in ScratchPad)
+   * @param newAddr:device address
+   * @return: address data,Return -1 on failure.
+   */
+  int getConfigAddr(uint8_t *newAddr);
 
 ```
 

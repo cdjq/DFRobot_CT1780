@@ -18,38 +18,37 @@ public:
   /**
    * @fn: DFRobot_CT1780
    * @brief: Constructor, passing in the data pin of the CT1780 connection
-   * @pram(pin): The pin of the OneWire data cable connection, the example code is the D2 pin of UNO
+   * @param pin: The pin of the OneWire data cable connection
    */
-  DFRobot_CT1780(uint8_t pin):OneWire(pin){
-  };
+  DFRobot_CT1780(uint8_t pin):OneWire(pin){};
+
   /**
-   * @fn: begin
-   * @brief: Initialize object
-   * @return: 1 is returned if initialization succeeds, 0 is returned if initialization fails
+   * @fn: searchDevice
+   * @brief: Search for CT1780 device connected to the bus
+   * @param newAddr:If a new device is retrieved, the 64-bit unique ID of the device is stored at that address
+   * @return: Returns 1 if a new address has been returned. A zero might mean that the bus is shorted, there are no devices, or you have already retrieved all of them.
    */
-  int begin();
+  int searchDevice(uint8_t *newAddr );
+
   /**
    * @fn: getCelsius
    * @brief: Read probe temperature data
+   * @param newAddr:device address
    * @return: float Temperature value (in degrees Celsius),Return NAN on failure.
    */
-  float getCelsius();
+  float getCelsius(uint8_t *newAddr);
+
   /**
-   * @fn: getUniqueAddr()
-   * @brief: Gets the 64-bit unique address of CT1780
-   * @return: Address data (array),Return NULL on failure.
-   */
-  uint8_t* getUniqueAddr();
-  /**
-   * @fn: getConfigAddr()
+   * @fn: getConfigAddr
    * @brief: Get the user-configured address of CT1780 (in ScratchPad)
+   * @param newAddr:device address
    * @return: address data,Return -1 on failure.
    */
-  int getConfigAddr();
+  int getConfigAddr(uint8_t *newAddr);
+
 private:
   #define CMD_CONVERT_T 0x44
   #define CMD_READ_SCRATCHPAD 0xBE
   uint8_t  CT1780Pin;
-  uint8_t  address[8];
 };
 #endif

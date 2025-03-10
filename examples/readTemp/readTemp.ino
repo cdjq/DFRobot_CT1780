@@ -10,34 +10,35 @@
  */
 #include "DFRobot_CT1780.h"
 DFRobot_CT1780 CT1780(2);
+typedef struct 
+{
+  uint8_t uniqueAddr[8];
+  int configAddr;
+}sCT1780_t;
+sCT1780_t sensorCt1780;
 void setup() {
-  Serial.begin(9600);
-  Serial.print("init CT1780...");
-  uint8_t address[8];
-  if (!CT1780.begin()) {
+  Serial.begin(115200);
+  Serial.print("search CT1780...");
+  if (!CT1780.searchDevice(sensorCt1780.uniqueAddr)) {
     Serial.println("failed!");
     while (1) {
       delay(1000);
-    }
+    } 
   }
   Serial.println("Successed!");
-  // Gets the 64-bit unique address of CT1780,return: Address data (array)
-  uint8_t *uniqueAddr = CT1780.getUniqueAddr();
-  if(uniqueAddr!=NULL){
-    Serial.print("unique addr is: ");
-    for(uint8_t i=0;i<8;i++){
-      Serial.print(uniqueAddr[i],HEX);
-      Serial.print(" ");
-    }
-    Serial.println();
-  }else{
-    Serial.println("get Unique addr err!");
+  Serial.print("unique addr is: ");
+  for(uint8_t i=0;i<8;i++){
+    if (sensorCt1780.uniqueAddr[i] < 0x10) Serial.print("0");
+    Serial.print(sensorCt1780.uniqueAddr[i],HEX);
+    Serial.print(" ");
   }
+  Serial.println();
+
   // Get the user-configured address of CT1780 (in ScratchPad)
-  uint8_t configAddr = CT1780.getConfigAddr();
-  if(configAddr!=-1){
+  sensorCt1780.configAddr = CT1780.getConfigAddr(sensorCt1780.uniqueAddr);
+  if(sensorCt1780.configAddr!=-1){
     Serial.print("config addr is: ");
-    Serial.println(configAddr,HEX);
+    Serial.println(sensorCt1780.configAddr,HEX);
   }else{
     Serial.println("get config addr err!");
   }
@@ -47,7 +48,7 @@ void setup() {
 void loop() {
   // Read probe temperature data
   Serial.print("Temperature : ");
-  Serial.print(CT1780.getCelsius());
+  Serial.print(CT1780.getCelsius(sensorCt1780.uniqueAddr));
   Serial.println(" C");
   delay(1000);
 }

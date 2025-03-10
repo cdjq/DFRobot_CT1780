@@ -18,37 +18,26 @@ bool is_all_equal(const uint8_t *data, size_t len) {
   return true;
 }
 
-int DFRobot_CT1780::begin() {
-  const int maxRetries = 3;
-  for(int i = 0; i < maxRetries; i++) {
-    if (search(address)) {
-      if(crc8(address, 7) != address[7]) {
-        reset_search();
-        delay(250);
-        continue;
-      }
-      if(address[0] != 0x3B) {
-        reset_search();
-        delay(250);
-        continue;
-      }
-      return 1; // 成功
+int DFRobot_CT1780::searchDevice(uint8_t *newAddr) {
+  if (search(newAddr)) {
+    if( (crc8(newAddr, 7) == newAddr[7]) && (newAddr[0] == 0x3B) ) {
+      return 1;
     }
-    reset_search();
-    delay(250);
   }
+  reset_search();
+  delay(250);
   return 0;
 }
 
-float DFRobot_CT1780::getCelsius(){
+float DFRobot_CT1780::getCelsius(uint8_t *newAddr){
   uint8_t data[9];
   reset();
-  select(address);
+  select(newAddr);
   write(CMD_CONVERT_T);
   delay(750); // Wait for the conversion to complete
   
   reset();
-  select(address);
+  select(newAddr);
   write(CMD_READ_SCRATCHPAD);
   
   for(int i = 0; i < 9; i++) {
@@ -61,20 +50,18 @@ float DFRobot_CT1780::getCelsius(){
   
   // Analytic temperature data
   int16_t rawTemperature = (data[1] << 8) | data[0];
-  return rawTemperature / 4 * 0.25; // The temperature resolution is 0.25°C
-}
-
-uint8_t* DFRobot_CT1780::getUniqueAddr(){
-  if(getConfigAddr()==-1){
-    return NULL;
+  rawTemperature >>=2;
+  if (rawTemperature & 0x2000) {  // 14位符号扩展
+    rawTemperature |= 0xC000;
   }
-  return address;
+
+  return rawTemperature * 0.25f; // The temperature resolution is 0.25°C
 }
 
-int DFRobot_CT1780::getConfigAddr(){
+int DFRobot_CT1780::getConfigAddr(uint8_t *newAddr){
   uint8_t data[9];
   reset();
-  select(address);
+  select(newAddr);
   write(CMD_READ_SCRATCHPAD);
   for(int i = 0; i < 9; i++) {
     data[i] = read();

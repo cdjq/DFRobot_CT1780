@@ -10,9 +10,8 @@ DFRobot_CT1780	KEYWORD1
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-begin	KEYWORD2
+searchDevice	KEYWORD2
 getCelsius	KEYWORD2
-getUniqueAddr	KEYWORD2
 getConfigAddr	KEYWORD2
 #######################################
 # Constants (LITERAL1)

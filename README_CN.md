@@ -33,34 +33,38 @@ DFRobot_CT1780
 ## 方法
 
 ```C++
-/**
- * @fn: begin
- * @brief: 初始化对象
- * @return: 初始化成功返回1，初始化失败返回0
- */
-int begin();
 
-/**
- * @fn: getCelsius
- * @brief: 读取探头温度数据
- * @return: float 温度值（单位：摄⽒度）
- */
-float getCelsius();
+  /**
+   * @fn: DFRobot_CT1780
+   * @brief: 构造函数，传入CT1780连接的数据引脚
+   * @param pin: OneWire数据线连接的引脚
+   */
+  DFRobot_CT1780(uint8_t pin);
 
-/**
- * @fn: getUniqueAddr()
- * @brief: 获取CT1780的64位唯⼀地址
- * @return: 地址数据（数组），失败返回NULL
- */
-uint8_t* getUniqueAddr();
+  /**
+   * @fn: searchDevice
+   * @brief: 搜索挂在总线上的ct1780设备
+   * @param newAddr:如果有新的设备被检索到，就将检索到设备的64位唯一id存入该地址
+   * @return: 如果返回了新地址，则返回1。零可能意味着总线短路，没有设备，或者您已经检索了所有设备。
+   */
+  int searchDevice(uint8_t *newAddr );
 
+  /**
+   * @fn: getCelsius
+   * @brief: 读取探头温度数据
+   * @param newAddr:设备的64位唯一id
+   * @return: float 温度值（单位：摄⽒度）
+   */
+  float getCelsius(uint8_t *newAddr);
+  
+  /**
+   * @fn: getConfigAddr()
+   * @brief: 获取CT1780的⽤⼾配置地址（在ScratchPad中）
+   * @param newAddr:设备的64位唯一id
+   * @return: 地址数据,失败返回-1
+   */
+  int getConfigAddr(uint8_t *newAddr);
 
-/**
- * @fn: getConfigAddr()
- * @brief: 获取CT1780的⽤⼾配置地址（在ScratchPad中）
- * @return: 地址数据,失败返回-1
- */
-int getConfigAddr();
 ```
 ## 兼容性
 MCU                | Work Well    | Work Wrong   |   Untested   |
