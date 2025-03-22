@@ -5,14 +5,14 @@
  * @license     The MIT License (MIT)
  * @author      [fary](feng.yang@dfrobot.com)
  * @version     V1.0
- * @date        2025-03-10
+ * @date        2025-03-22
  * @url         https://github.com/DFRobor/DFRobot_CT1780
  */
 #include "DFRobot_CT1780.h"
 typedef struct 
 {
   byte uniqueAddr[8];
-  uint8_t configAddr;
+  int configAddr;
 }sCT1780_t;
 
 sCT1780_t sensorCt1780[2];
@@ -22,7 +22,13 @@ void setup() {
   
   for(uint8_t i=0;i<2;i++){
     Serial.print("search CT1780...");
-    if (!CT1780.searchDevice(sensorCt1780[i].uniqueAddr)) {
+    /**
+     * @fn: searchDevice
+     * @brief: Search for CT1780 device connected to the bus
+     * @param newAddr:If a new device is retrieved, the 64-bit unique ID of the device is stored at that address,Please pass in an array of 8 bytes in length
+     * @return: If a new address is returned, 1 is returned. Zero may indicate that the bus is short, there are no devices, or that you have retrieved all the devices. Or you provided the wrong parameters
+     */
+    if (!CT1780.searchDevice(/*newAddr=*/sensorCt1780[i].uniqueAddr)) {
       Serial.println("failed!");
     }else{
       Serial.print("Successed! ");
