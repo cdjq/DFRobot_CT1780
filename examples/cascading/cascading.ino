@@ -8,58 +8,109 @@
  * @date        2025-03-22
  * @url         https://github.com/DFRobor/DFRobot_CT1780
  */
-#include "DFRobot_CT1780.h"
-typedef struct 
-{
-  byte uniqueAddr[8];
-  int configAddr;
-}sCT1780_t;
 
-sCT1780_t sensorCt1780[2];
-DFRobot_CT1780 CT1780(2);
-void setup() {
-  Serial.begin(115200);
-  
-  for(uint8_t i=0;i<2;i++){
-    Serial.print("search CT1780...");
-    /**
-     * @fn: searchDevice
-     * @brief: Search for CT1780 device connected to the bus
-     * @param newAddr:If a new device is retrieved, the 64-bit unique ID of the device is stored at that address,Please pass in an array of 8 bytes in length
-     * @return: If a new address is returned, 1 is returned. Zero may indicate that the bus is short, there are no devices, or that you have retrieved all the devices. Or you provided the wrong parameters
-     */
-    if (!CT1780.searchDevice(/*newAddr=*/sensorCt1780[i].uniqueAddr)) {
-      Serial.println("failed!");
-    }else{
-      Serial.print("Successed! ");
-      Serial.print("unique addr is: ");
-      for(uint8_t y=0;y<8;y++){
-        if (sensorCt1780[i].uniqueAddr[y] < 0x10) Serial.print("0");
-        Serial.print(sensorCt1780[i].uniqueAddr[y],HEX);
-        Serial.print(" ");
-      }
-      // Get the user-configured address of CT1780 (in ScratchPad)
-      sensorCt1780[i].configAddr = CT1780.getConfigAddr(sensorCt1780[i].uniqueAddr);
-      if(sensorCt1780[i].configAddr!=-1){
-        Serial.print(" . config addr is: ");
-        if (sensorCt1780[i].configAddr < 0x10) Serial.print("0");
-        Serial.println(sensorCt1780[i].configAddr,HEX);
-      }else{
-        Serial.println(". get config addr err!");
-      }
-    }
-  }
-}
+ #include "DFRobot_CT1780.h"
 
-void loop() {
-  // Read probe temperature data
-  for(uint8_t i=0;i<2;i++){
-    Serial.print("CT1780 number: ");
-    if (sensorCt1780[i].configAddr < 0x10) Serial.print("0");
-    Serial.print(sensorCt1780[i].configAddr,HEX);
-    Serial.print(" . Temperature: ");
-    Serial.print(CT1780.getCelsius(sensorCt1780[i].uniqueAddr));
-    Serial.println(" C");
-  }
-  delay(1000);
-}
+ #define MAX_DEVICES 16
+ 
+ struct sCT1780Device_t {
+   uint8_t address[8];
+   uint8_t configAddr;
+ };
+ 
+ struct sCT1780DeviceInfo_t {
+   int count;
+   sCT1780Device_t devices[MAX_DEVICES];
+ };
+ 
+ DFRobot_CT1780 CT1780(2);
+ sCT1780DeviceInfo_t sensorCt1780;
+ 
+ /*
+ * Search for CT1780 devices on the bus and save the number of parts, the unique address of the device,
+ * and DIP switch configuration address; If there is a CT1780 with the same configuration address on the bus,
+ * The number of devices returned is -1.
+ */
+ void searchCT780(sCT1780DeviceInfo_t *result) {
+   uint8_t addr[8];
+   int foundCount = 0;
+   result->count = 0;
+ 
+   // Phase 1: Search for the device
+   CT1780.reset_search();
+   delay(10);
+   
+   while(CT1780.searchDevice(addr)) {
+     if(foundCount >= MAX_DEVICES) break;
+     memcpy(result->devices[foundCount].address, addr, 8);
+     foundCount++;
+   }
+ 
+   // Stage 2: Check the configuration address
+   for(int i=0; i<foundCount; i++){
+     int ret = CT1780.getConfigAddr(result->devices[i].address);
+     if(ret == -1){
+       result->count = -1;
+       return;
+     }
+     
+     uint8_t cfg = (uint8_t)ret;
+     result->devices[i].configAddr = cfg;
+ 
+     // Check for duplicate addresses
+     for(int j=0; j<i; j++){
+       if(result->devices[j].configAddr == cfg){
+         result->count = -1;
+         return;
+       }
+     }
+   }
+   result->count = foundCount;
+ }
+ void setup() {
+   Serial.begin(115200);
+   while(!Serial);
+   
+   Serial.print("Searching CT1780...");
+   while(1){
+     searchCT780(&sensorCt1780);
+     if(sensorCt1780.count == -1){
+       Serial.println("Duplicate config addresses found!");
+       delay(1000);
+     } else if(sensorCt1780.count == 0){
+       Serial.println("No devices found");
+       delay(1000);
+     } else {
+       Serial.print("\nFound ");
+       Serial.print(sensorCt1780.count);
+       Serial.println(" devices:");
+       break;
+     }
+   }
+ }
+ 
+ void loop() {
+   for(int i=0; i<sensorCt1780.count; i++){
+     sCT1780Device_t &dev = sensorCt1780.devices[i];
+     
+     Serial.print("Device ");
+     Serial.print(i+1);
+     Serial.print(" (Config: 0x");
+     Serial.print(dev.configAddr, HEX);
+     Serial.print(") Address: ");
+     
+     for(int j=0; j<8; j++){
+       if(dev.address[j] < 0x10) Serial.print('0');
+       Serial.print(dev.address[j], HEX);
+       if(j < 7) Serial.print(':');
+     }
+     
+     Serial.print(" - Temp: ");
+     Serial.print(CT1780.getCelsius(dev.address));
+     Serial.println("°C");
+   }
+   Serial.println();
+   delay(2000);
+ 
+ }
+ 

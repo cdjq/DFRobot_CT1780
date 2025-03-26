@@ -23,15 +23,13 @@ void setup() {
    * @fn: searchDevice
    * @brief: Search for CT1780 device connected to the bus
    * @param newAddr:If a new device is retrieved, the 64-bit unique ID of the device is stored at that address,Please pass in an array of 8 bytes in length
-   * @return: If a new address is returned, 1 is returned. Zero may indicate that the bus is short, there are no devices, or that you have retrieved all the devices. Or you provided the wrong parameters
+   * @return: If a new address is returned, 1 is returned. 0 may indicate that the bus is short, there are no devices, or that you have retrieved all the devices. Or you provided the wrong parameters
    */
-  if (!CT1780.searchDevice(/*newAddr=*/sensorCt1780.uniqueAddr)) {
-    Serial.println("failed!");
-    while (1) {
-      delay(1000);
-    } 
+  while(!CT1780.searchDevice(/*newAddr=*/sensorCt1780.uniqueAddr)) {
+    Serial.println("Fail! It could be the following: the bus is short-circuited, there are no devices, you have retrieved all the devices, or you have provided the wrong parameters!");
+    delay(1000);
   }
-  Serial.println("Successed!");
+  Serial.println("Succeed!");
   Serial.print("unique addr is: ");
   for(uint8_t i=0;i<8;i++){
     if (sensorCt1780.uniqueAddr[i] < 0x10) Serial.print("0");

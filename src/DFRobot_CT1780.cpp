@@ -9,7 +9,7 @@
  * @url         https://github.com/DFRobor/DFRobot_CT1780
  */
 #include "DFRobot_CT1780.h"
-bool is_all_equal(const uint8_t *data, size_t len) {
+bool isAllEqual(const uint8_t *data, size_t len) {
   for (size_t i = 1; i < len; i++) {
     if (data[i] != data[0]) {
       return false;
@@ -27,8 +27,6 @@ int DFRobot_CT1780::searchDevice(uint8_t *newAddr) {
       return 1;
     }
   }
-  reset_search();
-  delay(250);
   return 0;
 }
 
@@ -50,14 +48,14 @@ float DFRobot_CT1780::getCelsius(uint8_t *newAddr){
     data[i] = read();
   }
   
-  if(is_all_equal(data,9)||crc8(data, 8) != data[8]) {
+  if(isAllEqual(data,9)||crc8(data, 8) != data[8]) {
     return NAN;
   }
   
   // Analytic temperature data
   int16_t rawTemperature = (data[1] << 8) | data[0];
   rawTemperature >>=2;
-  if (rawTemperature & 0x2000) {  // 14位符号扩展
+  if (rawTemperature & 0x2000) {
     rawTemperature |= 0xC000;
   }
   float temp = rawTemperature * 0.25f;// The temperature resolution is 0.25°C
@@ -79,7 +77,7 @@ int DFRobot_CT1780::getConfigAddr(uint8_t *newAddr){
     data[i] = read();
   }
   
-  if(is_all_equal(data,9)||crc8(data, 8) != data[8]) {
+  if(isAllEqual(data,9)||crc8(data, 8) != data[8]) {
     return -1;
   }
   // Extract AD0-AD3 information

@@ -27,6 +27,7 @@ DFRobot_CT1780
 
 To use this library, first download the library file, paste it into the \Arduino\libraries directory, then open the examples folder and run the demo in the folder.
 This library depends on the OneWire library. Please install OneWire before using this library. Download method: Arduino IDE → Tools → Manage Libraries, search for "OneWire" and install it.
+The current version of the OneWire library used is 2.3.8
 ## Methods
 
 ```C++

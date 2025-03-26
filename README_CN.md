@@ -29,7 +29,7 @@ DFRobot_CT1780
 
 使用此库前，请首先下载库文件，将其粘贴到\Arduino\libraries目录中，然后打开examples文件夹并在该文件夹中运行演示。
 本库依赖OneWire库，使用此库前，请先安装OneWire。安装方式：在Arduino IDE → Tools → Manage Libraries下搜索Onewire并下载。
-
+当前使用的OneWire库版本是2.3.8
 ## 方法
 
 ```C++

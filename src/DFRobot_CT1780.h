@@ -11,7 +11,8 @@
 #ifndef _DFRobot_CT1780_H_ 
 #define _DFRobot_CT1780_H_
 #include "OneWire.h"
-
+#define CMD_CONVERT_T 0x44
+#define CMD_READ_SCRATCHPAD 0xBE
 class DFRobot_CT1780 :public OneWire
 {
 public:
@@ -46,9 +47,5 @@ public:
    */
   int getConfigAddr(uint8_t *newAddr);
 
-private:
-  #define CMD_CONVERT_T 0x44
-  #define CMD_READ_SCRATCHPAD 0xBE
-  uint8_t  CT1780Pin;
 };
 #endif
