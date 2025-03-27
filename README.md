@@ -41,7 +41,7 @@ The current version of the OneWire library used is 2.3.8
    * @fn: searchDevice
    * @brief: Search for CT1780 device connected to the bus
    * @param newAddr:If a new device is retrieved, the 64-bit unique ID of the device is stored at that address
-   * @return: Returns 1 if a new address has been returned. A zero might mean that the bus is shorted, there are no devices, or you have already retrieved all of them.
+   * @return: Returns 1 if a new address has been returned. 0 might mean that the bus is shorted, there are no devices, or you have already retrieved all of them.
    */
   int searchDevice(uint8_t *newAddr );
   /**
